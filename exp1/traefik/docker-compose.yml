@@ -1,0 +1,21 @@
+version: "2.4"
+services:
+    traefik:
+      image: "traefik:v2.4"
+      container_name: "traefik"
+#если добавить эту строку, то контайнер при рестарте ОС запуститься автоматом
+#      restart: always 
+      command:
+        - "--api.insecure=true"
+        - "--providers.docker=true"
+        - "--providers.docker.exposedbydefault=false"
+      ports:
+        - "8080:8080"
+        - "80:80"
+      networks:
+        - registry_default
+      volumes:
+        - "/var/run/docker.sock:/var/run/docker.sock:ro"
+networks:
+  registry_default:
+    external: true
